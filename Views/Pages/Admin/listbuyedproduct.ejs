@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets1/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets1/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets1/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets1/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets1/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets1/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets1/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets1/css/style.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between" style="text-decoration: none;">
+      <a class="logo d-flex align-items-center" style="text-decoration: none;">
+        <img src="img/logo1.png" alt="" style="height: 50px; width: 50px">
+        <span class=" fs-5" style="text-decoration: none;">Shop Now!</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <form class="d-flex" role="search">
+                <a class="btn btn-outline-dark" href="/logout" role="button">Log out</a>
+            </form>
+          </a><!-- End Profile Iamge Icon -->
+
+         
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/adminhome">  <i class="bi bi-border-all"></i> Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/users"> <i class="bi bi-person-bounding-box"></i> User</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/listofbuyitem">  <i class="bi bi-bag"></i> Buyed Item</a>
+            </li>
+        </ul>
+  </aside><!-- End Sidebar-->
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Buyed Items</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="">Items</a></li>
+            <li class="breadcrumb-item active">List of Items</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+    <div class="row">
+       
+        <% if(message!="") {%>
+            <div class="alert alert-success text-center" role="alert">
+                <p><%= message %>&nbsp;&nbsp;&nbsp;<a class="btn btn-success" href="/listofbuyitem" role="button">Ok</a></p>
+            </div>
+        <% } %> 
+        <div class="row">
+            <div class="col-2">
+                  <!-- Button trigger modal -->
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add Item <i class="fa fa-plus" style="font-size:20px;color:white"></i>
+                </button> -->
+            </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <p class="display-5 text-center">
+                        Products
+                    </p>
+                </div>
+                <div class="card-body">
+                    <table id="example1" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Itemn Image</th>
+                                <th>User Email</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Cancel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allitem.forEach(element => { %>
+                                <tr>
+                                    <td><%= element.id %></td>
+                                    <td><img src="images/<%= element.image %> " style="width: 100px;" alt=""></td>
+                                    <td><%= element.user_email %></td>
+                                    <td><%= element.quantity %></td>
+                                    <td><%= element.status %></td>
+                                    <td><%= element.price %></td>
+                                    <% if (element.status == "pending") { %>
+                                        <td><a class="btn btn-info" href="/approveorder/<%= element.id %>" role="button">Approve</a>
+                                            <a class="btn btn-danger" href="/declineorder/<%= element.id %>" role="button">decline</a></td>
+                                    <% }else if (element.status == "approve") {%>
+                                        <td>
+                                            <a class="btn btn-info" href="/toclaim/<%= element.id %>" role="button">To Claim</a>
+                                        </td>
+                                    <% }else if ((element.status == "decline") || (element.status == "Cancelled")){%>
+                                        <td>
+                                            <a class="btn btn-danger" href="/adminremove/<%= element.id %>" role="button">Remove </a>
+                                        </td>
+                                    <% }else if (element.status == "to claim") {%>
+                                        <td>
+                                            <a class="btn btn-success" href="/donebuy/<%= element.id %>" role="button">Done </a>
+                                        </td>
+                                        <% }else if (element.status == "done") {%>
+                                        <td>
+                                            <a class="btn btn-success" href="/adminremove/<%= element.id %>" role="button">Finished </a>
+                                        </td>
+                                    <% }%>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Itemn Image</th>
+                                <th>User Email</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Cancel</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable();
+        });
+    </script>
+ 
+              
+        
+  </main><!-- End #main -->
+
+  
+  
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets1/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets1/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets1/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets1/vendor/echarts/echarts.min.js"></script>
+  <script src="assets1/vendor/quill/quill.min.js"></script>
+  <script src="assets1/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets1/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets1/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets1/js/main.js"></script>
+
+</body>
+
+</html>

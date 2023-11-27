@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shop</title>
+	
+  <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css.css">
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+
+</head>
+<script>
+  $(document).ready( function () {
+    $('#example').DataTable();
+} );
+</script>
+<body>
+  <!--================ Start Header Menu Area =================-->
+	<header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="index.html"><img src="img/logo1.png" alt="" style="height: 70px; width: 70px"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item "><a class="nav-link" href="/homepage">Home</a></li>
+              <li class="nav-item  submenu dropdown">
+                <a href="/shop" class="nav-link dropdown-toggle"  role="button" aria-haspopup="true"
+                  aria-expanded="false">Shop</a>
+
+							</li>
+              <li class="nav-item active"><a class="nav-link" href="/mycart">Purchased Products</a></li>
+            </ul>
+
+            <ul class="nav-shop">
+              <!-- <li >
+                <div class="container-fluid">
+                <form class="d-flex">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class=" m-1" type="submit"> <i class="ti-search"></i></button>
+                </form>
+              </div>
+            </li> -->
+              <!-- <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li> -->
+              <li class="nav-item"><a class="button button-header" href="/logout">Log Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+	<!--================ End Header Menu Area =================-->
+<br><br>
+  <div class="section-intro  text-center">
+    <p>Items Purchased</p>
+    <h2>My <span class="section-intro__style">Items</span></h2>
+  </div>
+
+
+  <main class="site-main">
+    <% if(message!="") {%>
+      <div class="alert alert-success text-center" role="alert">
+          <p><%= message %>&nbsp;&nbsp;&nbsp;<a class="btn btn-success" href="/shop" role="button">OK</a></p>
+      </div>
+  <% } %> 
+    <div class="container">
+        <div class="card mt-5">
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <!-- <th>ID</th> -->
+                        <th>Item Image</th>
+                        <th>User Email</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Price</th>
+                        <th>Cancel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% myc.forEach(element => { %>
+                      <tr>
+                        
+                        <td><img src="images/<%= element.image %> " style="width: 100px;" alt=""></td>
+                        <td><%= element.user_email %></td>
+                        <td><%= element.quantity %></td>
+                        <% if (element.status == "cart") { %>
+                          <td class="text-primary"><%= element.status %></td>
+                        <% } %>
+
+                        <% if (element.status == "to claim") { %>
+                          <td class="text-warning"><%= element.status %></td>
+                        <% } %>
+
+                        <% if (element.status == "approve") { %>
+                          <td class="text-success"><%= element.status %></td>
+                        <% } %>
+
+                        <% if (element.status == "pending") { %>
+                          <td class="text-danger"><%= element.status %></td>
+                        <% } %>
+
+                        <% if (element.status == "done") { %>
+                          <td class="text-info"><%= element.status %></td>
+                        <% } %>
+
+                        <% if (element.status == "Cancelled") { %>
+                          <td class="text-danger"><%= element.status %></td>
+                        <% } %>
+
+                        <td><%= element.price %></td>
+                        <% if (element.status == "cart") { %>
+                          <td><a class="btn btn-success" href="/finalize/<%= element.id %>" role="button">Place Order</a> 
+                            <a class="btn btn-danger" href="/removetocart/<%= element.id %>" role="button">Remove</a>
+                          </td>
+                        <% } else if (element.status == "approve") { %>
+                          <td>On Process</td>
+                        <% } else { %> 
+                          <td><a class="btn btn-danger" href="/removetocart/<%= element.id %>" role="button">Remove</a></td>
+                          <% } %> 
+                      </tr>
+                    <% }) %>
+                <tfoot>
+                    <tr>
+                      <!-- <th>ID</th> -->
+                      <th>Item Image</th>
+                      <th>User Email</th>
+                      <th>Quantity</th>
+                      <th>Status</th>
+                      <th>Price</th>
+                      <th>Cancel</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <br>
+  </main>
+
+   <!--================ Start footer Area  =================-->	
+	<footer class="footer">
+		<div class="footer-area">
+			<div class="container">
+				<div class="row section_gap">
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title large_title">Our Mission</h4>
+							<p>
+                We sell all sorts of new generation laptops, printers, cameras, keyboard and ensure excellent after-sales services. 
+                We are very much on time and give the emphasis on customer preferences.
+							</p>
+							<p>
+                Our mission is to help the nation by diversifying the technology throughout the country.
+							</p>
+						</div>
+					</div>
+					<div class="offset-lg-1 col-lg-2 col-md-8 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title">Quick Links</h4>
+							<ul class="list">
+								<li><a href="/homepage">Home</a></li>
+								<li><a href="/shop">Shop</a></li>
+								<li><a href="/mycart">Purchased Products</a></li>
+								
+							</ul>
+						</div>
+					</div>
+					
+					<div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
+						<div class="single-footer-widget tp_widgets">
+							<h4 class="footer_title">Contact Us</h4>
+							<div class="ml-40">
+								<p class="sm-head">
+									<span class="fa fa-location-arrow"></span>
+									Main Shop
+								</p>
+								<p>Binalonan, Pangasinan</p>
+	
+								<p class="sm-head">
+									<span class="fa fa-phone"></span>
+									Phone Number
+								</p>
+								<p>
+									09872635172<br>
+									+123 456 7890
+								</p>
+	
+								<p class="sm-head">
+									<span class="fa fa-envelope"></span>
+									Email
+								</p>
+								<p>
+									kcnisperos@gmail.com <br>
+								
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row d-flex">
+					<p class="col-lg-12 footer-text text-center">
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script>  Elec3 Group1</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--================ End footer Area  =================-->
+
+</html>
